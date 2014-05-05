@@ -1,11 +1,9 @@
 package com.onformative.screencapturer;
 
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -23,7 +21,6 @@ import processing.core.PImage;
  * Screen.java last edited: 05.10.2012 autor: marcel schwittlick
  * 
  */
-@SuppressWarnings("restriction")
 class Screen extends JFrame {
 
   private static final long serialVersionUID = 7180689585663427706L;
@@ -39,7 +36,7 @@ class Screen extends JFrame {
    * the constructor initializes the new jframe of the capturer
    */
   public Screen() {
-    super("Screen Capturer 0.1");
+    super("Screen Capturer 0.3");
 
     this.getRootPane().addComponentListener(new ComponentAdapter() {
       public void componentResized(ComponentEvent e) {
@@ -108,11 +105,17 @@ class Screen extends JFrame {
       public void run() {
         window = new Screen();
         window.setAlwaysOnTop(true);
+        window.setUndecorated(true);
+        
         if (!System.getProperty("os.name").contains("OS X")) {
-          window.setUndecorated(true);
+          window.setBackground(new Color(0, 0, 0, 0));
         }
+        
+        if (System.getProperty("os.name").contains("OS X")) {
+          window.getRootPane().putClientProperty("Window.alpha", new Float(0.01f));
+        }
+        
         window.setVisible(true);
-        window.setBackground(new Color(0, 0, 0, 0));
         window.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width - window.getWidth(), 0);
         if (System.getProperty("os.name").contains("OS X")) {
           window.getRootPane().putClientProperty("Window.shadow", Boolean.FALSE);
@@ -127,7 +130,7 @@ class Screen extends JFrame {
   }
 
   /**
-   * starts the capturer setting its position on the screen aswell
+   * starts the capturer setting its position on the screen as well
    * 
    * @param w width
    * @param h height
@@ -147,12 +150,18 @@ class Screen extends JFrame {
       public void run() {
         window = new Screen();
         window.setAlwaysOnTop(true);
-        if (!System.getProperty("os.name").contains("OS X")) {
-          window.setUndecorated(true);
-        }
         window.setLocation(x, y);
+        window.setUndecorated(true);
+        
+        if (!System.getProperty("os.name").contains("OS X")) {
+            window.setBackground(new Color(0, 0, 0, 0));
+        }
+          
+        if (System.getProperty("os.name").contains("OS X")) {
+          window.getRootPane().putClientProperty("Window.alpha", new Float(0.01f));
+        }
+        
         window.setVisible(true);
-        window.setBackground(new Color(0, 0, 0, 0));
         if (System.getProperty("os.name").contains("OS X")) {
           window.getRootPane().putClientProperty("Window.shadow", Boolean.FALSE);
           window.getRootPane().putClientProperty("Window.style", "medium");
